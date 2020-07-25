@@ -29,6 +29,8 @@ knitr::opts_chunk$set(echo = TRUE,  comment="      ##",  error=TRUE, collapse=TR
 ```{r library, include=FALSE		}
 library(jimTools)
 library(here)
+library(dplyr)
+library(tibble)
 ```
 
 
@@ -45,7 +47,25 @@ jimTools::ren_github(file, dir)
 
 ```{r}
 library("rtweet")
+friends  <- rtweet::get_friends("jimrothstein")
+search_tweets
+lookup  <- lookup_tweets(friends[[2]])
 
+dplyr::glimpse(lookup[[3]])
+
+```
+```{r}
+rt <- search_tweets(
+  "#rstats", n = 200, include_rts = FALSE
+)
+rt$name
+names(rt) %>% head(20)
+rt$text
+
+
+rt %>% 
+	select("created_at", "screen_name", "text") %>% 
+	head()
 ```
 
 ```{r knit_exit()}
